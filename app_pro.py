@@ -11,14 +11,17 @@ import datetime
 import pandas as pd  # ✨ 新增：用于数据处理和导出
 
 # ================= 1. 配置区域 =================
-URI = "neo4j+ssc://7eb127cc.databases.neo4j.io"
-AUTH = ("neo4j", "wE7pV36hqNSo43mpbjTlfzE7n99NWcYABDFqUGvgSrk")
-
-# ================= 2. 初始化 Session =================
-if 'user_id' not in st.session_state:
-    st.session_state['user_id'] = str(uuid.uuid4())[:8]
-if 'is_admin_logged_in' not in st.session_state:
-    st.session_state['is_admin_logged_in'] = False
+if "NEO4J_URI" in st.secrets:
+    # 这里的 key (方括号里的词) 必须和 Advanced Settings 里的等号左边一模一样
+    URI = st.secrets["NEO4J_URI"]
+    AUTH = ("neo4j", st.secrets["NEO4J_PASSWORD"])
+    # 读取你刚刚设置的管理员密码
+    ADMIN_PWD = st.secrets.get("ADMIN_PASSWORD", "admin888") 
+else:
+    # 本地备用
+    URI = "neo4j+ssc://7eb127cc.databases.neo4j.io"
+    AUTH = ("neo4j", "wE7pV36hqNSo43mpbjTlfzE7n99NWcYABDFqUGvgSrk")
+    ADMIN_PWD = "admin888"
 
 # ================= 3. 后端逻辑 (Neo4j) =================
 class GraphApp:
@@ -323,5 +326,6 @@ else:
                                 app.upvote_method(m['name']); st.rerun()
                 if graph:
                     st.divider(); st.subheader("🕸️ 归因图谱"); st_pyecharts(build_graph_chart(graph), height="500px")
+
 
 app.close()
