@@ -142,7 +142,7 @@ st.markdown("""
 app = GraphApp()
 
 with st.sidebar:
-    st.title("🧠 导学系统 Pro v2.3")
+    st.title("心理学导学系统")
     view_mode = st.radio("视图模式：", ["👨‍🎓 学生/访客模式", "👩‍🏫 教师/管理模式"])
     if view_mode == "👩‍🏫 教师/管理模式":
         if not st.session_state['is_admin_logged_in']:
@@ -281,3 +281,4 @@ else:
                     st.divider(); st.subheader("🕸️ 归因图谱"); st_pyecharts(build_graph_chart(graph), height="500px")
 
 app.close()
+
