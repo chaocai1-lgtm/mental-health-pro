@@ -209,7 +209,7 @@ with st.sidebar:
         if not st.session_state['is_admin_logged_in']:
             pwd = st.text_input("请输入管理密码：", type="password")
             if st.button("🔐 确认登录"):
-                if pwd == "admin888":
+                if pwd == ADMIN_PWD:
                     st.session_state['is_admin_logged_in'] = True
                     st.rerun()
                 else:
@@ -329,3 +329,4 @@ else:
 
 
 app.close()
+
